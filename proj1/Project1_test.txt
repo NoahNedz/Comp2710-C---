@@ -1,0 +1,156 @@
+Noah Niedzwiecki Test Cases
+ID = 903731609
+filename = Project1_test
+___________________________
+
+2 input scenarios exist in this game: forgiving and unforgiving. All questions that effect the character based off their decisions in encounters are unforgiving, 
+while menu selections are forgiving.
+
+for the main menu 
+
+1) Start a new game
+
+2)View HighScores
+
+3)Quit
+
+4
+
+4
+
+4
+
+4
+
+
+
+
+
+If the user inputs say 41, the program will ignore that line and wait till a proper response is given
+they could keep typing 4 if they wanted to till the end of time and nothing will happen
+
+
+
+This is done by a while loop:
+
+while(!valid){
+	valid = true;
+	cin >> gameChoice;
+	if(cin.fail() || gameChoice < 0 || gameChoice > 6) {
+		cin.clear();
+		cin.ignore();
+		valid = false;
+	}
+}
+valid = false; // to reset!
+
+On the flip side, when the user is being asked a question from a random puzzle encounter, 
+If they input a nonlogical number it will simply mark it as incorrect
+Only the right answer will be accepted, every other number will be wrong
+
+ 
+
+cout<<"A greasefire randomly errupts in a nearby kitchen!\n";
+        
+cout<<"What is the proper way to put it out?\n";
+        
+cout<<"1) Simply blow on it with your massive lungs!"<< endl;
+        
+cout<<"2) Attempt to extinguish it with the pile of papers being held by an innocent goblin\n";
+        
+cout<<"3) Turn off the source of heat and cover immediately, cancelling all oxygen supply\n";
+       
+cout<<"4) Pour lots of water on it!\n";
+        
+        
+
+if the user inputs 77 it will be marked incorrect and a penalty to their stats will occur
+        
+only 3 is correct, so play with that in mind.
+        
+
+        
+        
+
+_________________________________________________________________________________________
+
+Another test case is Character name input. The use's name is asked at the beginning of the program and is not asked again until the program is exited
+
+The name input must be restrictive so that the highscores list isnt completely whack and if the user input a rediculously long name it wont cause an overflow error
+So the name is restricted to 10 characters,
+this is done by testing the user's input by string.size() method from the string library.
+
+If a name is inputed that is too long, a message saying "please input a shorter name" will display until the correct size is input.
+
+
+cout << "Enter Your Name(No Spaces)" << endl;
+    
+    
+
+cin >> "fkdhjnfkldsfh'nmkjlodshnflkjdshnfkljds"
+    
+    
+
+while(Name4Character > 10) {
+    
+
+cout << "please input a shorter name"
+    
+
+}
+    
+    
+if the user simply presses enter, it will keep waiting for a name so the string ="" will never be equivilent to a user's name
+    
+    
+    
+
+__________________________________________________________________________________________
+
+In order to make scores completely comparable certain measures were put in place.
+
+Some puzzles cause strikes against the Character's stats that could make them equivilent to a negative number
+The game constantly checks for this by checking to see if the stats are less than or equal to 0, 
+but when the score is generated it will appear that the user has a negative score!
+
+So, to counter this, to compute the score I added a static ammount to those susceptible values to ensure that they would never become negative.
+
+Say a user encounters a puzzle with 2 Intelligence left, and they get it wrong and -5 Intelligence is deducted, now they would have -3 Intelligence, and simply calculating their score by multiplying all the stats together
+
+would result in a negative number. So 100 is added to each vulenerable stat: time, intelligence, and money!
+
+
+Thus, making everyone's score valid for the highscores table!
+
+Score = ((Money+100) * (Intelligence+100) * Location * (Time + 20)/10); 
+Division by ten is just so numbers dont get needlessly large.
+
+
+__________________________________________________________________________________________
+
+The only other situation that arrived when a logical error occured in the program was when a user completed the game once and attempted to play again, 
+the game would auto end based off their last play through stats because they never got reset
+I created the Character.
+reset() function just for this so that each time a new game is started the character stats reset to their original state.
+
+
+
+
+int Character::reset_user() {
+    Time = 25;
+    Location = 0;
+    Money = 20;
+    Intelligence = 20;
+    
+return 0;
+
+}
+
+
+is called here
+
+
+string Menu::mainMenu(Character& user){
+
+user.reset_user();
+    
